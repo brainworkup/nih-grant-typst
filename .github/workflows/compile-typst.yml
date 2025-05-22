@@ -29,7 +29,7 @@ jobs:
         run: typst compile templates/R03/R03.typ outputs/R03_template.pdf
 
       - name: Upload compiled PDFs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-pdfs
           path: outputs/*.pdf

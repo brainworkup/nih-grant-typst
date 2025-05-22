@@ -1,0 +1,381 @@
+---
+title: "Appendix A: Technical Methods"
+subtitle: "Data Collection and Analysis Protocols"
+format:
+  html:
+    toc: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+
+# Data Acquisition Protocols
+
+This appendix provides detailed information about the data collection methods used in this research project.
+
+## Participant Recruitment and Screening
+
+### Inclusion Criteria
+
+- **Typically Developing (TD) Group**:
+  - Age 7-18 years
+  - No history of neurological or psychiatric disorders
+  - IQ > 80 (as measured by WASI-II)
+  - No first-degree relatives with ADHD or ASD diagnosis
+
+- **ADHD Group**:
+  - Age 7-18 years
+  - Clinical diagnosis of ADHD (any subtype) confirmed by ADHD Rating Scale-5 and K-SADS-PL
+  - IQ > 80 (as measured by WASI-II)
+  - No comorbid ASD diagnosis
+
+- **ASD Group**:
+  - Age 7-18 years
+  - Clinical diagnosis of ASD confirmed by ADOS-2 and ADI-R
+  - IQ > 80 (as measured by WASI-II)
+  - No comorbid ADHD diagnosis requiring medication
+
+### Exclusion Criteria
+
+For all groups:
+- History of traumatic brain injury
+- Major neurological disorder (e.g., epilepsy)
+- Psychosis or bipolar disorder
+- MRI contraindications (e.g., metal implants, claustrophobia)
+- Inability to complete cognitive tasks or understand instructions
+
+### Medication Considerations
+
+- TD participants: No psychoactive medications
+- ADHD participants: Stimulant medication withheld for 48 hours prior to testing
+- ASD participants: No changes to stable medications
+
+## Behavioral Assessment
+
+### Cognitive Measures
+
+1. **Stop Signal Task**
+   - 5 blocks of 60 trials (300 total)
+   - 75% go trials, 25% stop trials
+   - Adaptive stop signal delay procedure
+   - Primary measure: Stop-signal reaction time (SSRT)
+
+2. **Flanker Task**
+   - 4 blocks of 60 trials (240 total)
+   - Congruent and incongruent trials
+   - Primary measure: Incongruent-congruent RT difference
+
+3. **Task-Switching Paradigm**
+   - 4 blocks of 64 trials (256 total)
+   - Switch and repeat trials
+   - Primary measure: Switch cost (switch - repeat RT)
+
+### Clinical Measures
+
+1. **Diagnostic Measures**
+   - Kiddie Schedule for Affective Disorders and Schizophrenia (K-SADS-PL)
+   - Autism Diagnostic Observation Schedule, 2nd Edition (ADOS-2)
+   - Autism Diagnostic Interview-Revised (ADI-R)
+
+2. **Symptom Measures**
+   - ADHD Rating Scale-5 (ADHD-RS-5)
+   - Social Responsiveness Scale, 2nd Edition (SRS-2)
+   - Child Behavior Checklist (CBCL)
+
+3. **Cognitive/Intellectual Measures**
+   - Wechsler Abbreviated Scale of Intelligence, 2nd Edition (WASI-II)
+   - NIH Toolbox Cognitive Battery
+
+## Neuroimaging Protocols
+
+### MRI Acquisition Parameters
+
+All MRI data were collected on a Siemens Prisma 3T scanner with a 64-channel head coil.
+
+1. **Structural MRI**
+   - T1-weighted MPRAGE
+   - TR = 2300ms, TE = 2.98ms, TI = 900ms
+   - Flip angle = 9°
+   - 1mm isotropic resolution
+   - Acquisition time: 5:21
+
+2. **Functional MRI**
+   - Multi-band EPI sequence
+   - TR = 720ms, TE = 37ms
+   - Flip angle = 52°
+   - Multi-band factor = 8
+   - 2mm isotropic resolution
+   - 72 slices with no gap
+   - Acquisition time per run: 5:12
+
+3. **Diffusion MRI**
+   - Multi-shell diffusion-weighted EPI
+   - b-values: 1000, 2000, 3000 s/mm²
+   - 96 diffusion directions (32 per shell)
+   - 2mm isotropic resolution
+   - Acquisition time: 9:56
+
+### EEG Acquisition Parameters
+
+EEG data were collected simultaneously with fMRI using a 64-channel MR-compatible EEG system (Brain Products).
+
+- 64 scalp electrodes according to the extended 10-20 system
+- FCz reference and AFz ground
+- 5000 Hz sampling rate
+- 0.016-250 Hz band-pass filter
+- 30 kΩ maximum impedance
+
+### Simultaneous fMRI-EEG Setup
+
+- EEG equipment placed outside the MRI room
+- MR-compatible amplifier placed at the head of the scanner bore
+- Fiber optic cables connecting amplifier to recording equipment
+- Trigger synchronization between MRI and EEG systems
+- Specialized artifact removal procedures applied
+
+# Data Analysis Procedures
+
+## Preprocessing Pipelines
+
+### fMRI Preprocessing
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Example fMRI preprocessing script (BIDS App implementation)
+# This R code demonstrates the command structure used in our pipeline
+
+fmriprep_command <- "
+singularity run --cleanenv fmriprep-latest.simg
+  data/raw/neuroimaging
+  data/cleaned/neuroimaging
+  participant
+  --participant-label sub-{subject_id}
+  --fs-license-file license.txt
+  --output-spaces MNI152NLin2009cAsym:res-2 T1w
+  --use-aroma
+  --stop-on-first-crash
+  --task-id StopSignal Flanker TaskSwitching
+  --ignore slicetiming
+  --fd-spike-threshold 0.5
+  --bold2t1w-dof 9
+  --nthreads 8
+  --omp-nthreads 4
+  --skull-strip-template OASIS
+  --resource-monitor
+"
+
+# Execute for each participant
+for (subject_id in subject_list) {
+  system(gsub("\\{subject_id\\}", subject_id, fmriprep_command))
+}
+```
+
+Key fMRI preprocessing steps include:
+1. Motion correction
+2. Slice timing correction
+3. Distortion correction using field maps
+4. Registration to T1w image
+5. Normalization to MNI space
+6. ICA-AROMA for motion artifact removal
+7. Spatial smoothing (6mm FWHM)
+8. High-pass filtering (100s)
+
+### EEG Preprocessing
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Example EEG preprocessing pipeline in R using eegUtils
+# This is a simplified version of our actual pipeline
+
+library(eegUtils)
+library(signal)
+
+preprocess_eeg <- function(file_path, output_dir, subject_id) {
+  # Load data
+  eeg_data <- import_raw(file_path, format = "brainvision")
+
+  # Remove MR gradient artifacts
+  eeg_data <- remove_gradient(
+    eeg_data,
+    volume_tr = 0.72,
+    slice_n = 72,
+    slice_tr = 0.01
+  )
+
+  # Remove cardioballistic artifacts
+  eeg_data <- remove_bcg(eeg_data)
+
+  # Filter data
+  eeg_data <- eeg_filter(
+    eeg_data,
+    low_freq = 0.1,
+    high_freq = 40,
+    filter_order = 4,
+    method = "butter"
+  )
+
+  # Downsample to 250 Hz
+  eeg_data <- resample(eeg_data, new_srate = 250)
+
+  # Run ICA for blink correction
+  eeg_ica <- run_ica(eeg_data, method = "fastica")
+  blink_components <- identify_blinks(eeg_ica)
+  eeg_data <- reject_components(eeg_ica, eeg_data, blink_components)
+
+  # Re-reference to average
+  eeg_data <- reref_eeg(eeg_data, ref_chans = "average")
+
+  # Save preprocessed data
+  export_data(
+    eeg_data,
+    file = file.path(output_dir, paste0("sub-", subject_id, "_clean.set")),
+    format = "eeglab"
+  )
+}
+```
+
+Key EEG preprocessing steps include:
+1. MR gradient artifact removal
+2. Cardioballistic artifact removal
+3. Band-pass filtering (0.1-40 Hz)
+4. Downsampling to 250 Hz
+5. Independent Component Analysis (ICA) for eye movement correction
+6. Average re-referencing
+7. Segmentation into epochs
+
+### Behavioral Data Processing
+
+Behavioral data preprocessing follows these steps:
+
+1. Removal of practice trials
+2. Removal of anticipatory responses (RT < 100ms)
+3. Removal of outlier RTs (>3SD from subject mean)
+4. Calculation of key performance metrics:
+   - Mean RT and accuracy for go/congruent/repeat trials
+   - SSRT for Stop Signal Task
+   - Flanker effect for Flanker Task
+   - Switch cost for Task Switching Paradigm
+5. Quality control checks and exclusion criteria application
+
+## Analysis Methods
+
+### fMRI Analysis
+
+1. **General Linear Model (GLM)**
+   - Task-specific models for each paradigm
+   - HRF convolution with stimulus onsets
+   - Motion parameters as nuisance regressors
+   - First-level (individual) and second-level (group) analyses
+
+2. **Region of Interest (ROI) Analysis**
+   - A priori ROIs based on cognitive control literature
+   - Extraction of beta values and percent signal change
+   - Statistical comparison across groups and conditions
+
+3. **Functional Connectivity Analysis**
+   - Task-based connectivity using psychophysiological interactions (PPI)
+   - Seed-based connectivity from key prefrontal regions
+   - Graph theoretical measures of network organization
+
+### EEG Analysis
+
+1. **Event-Related Potentials (ERPs)**
+   - Component identification (N2, P3, ERN)
+   - Amplitude and latency extraction
+   - Statistical comparison across groups and conditions
+
+2. **Time-Frequency Analysis**
+   - Wavelet decomposition for time-frequency representations
+   - Extraction of power in frequency bands of interest
+   - Event-related spectral perturbation (ERSP) analysis
+
+3. **Source Localization**
+   - Distributed source modeling using sLORETA
+   - Extraction of source time courses from regions of interest
+   - Statistical comparison of source activities
+
+### Multimodal Integration
+
+1. **fMRI-Informed EEG Analysis**
+   - Using fMRI spatial information to constrain EEG source reconstruction
+   - Joint ICA of fMRI and EEG features
+
+2. **EEG-Informed fMRI Analysis**
+   - Using EEG temporal features as regressors in fMRI analysis
+   - Identification of brain regions associated with specific EEG components
+
+3. **Computational Modeling**
+   - Drift diffusion modeling of behavioral data
+   - Dynamic causal modeling of neural activity
+   - Integration of behavioral and neural parameters in predictive models
+
+## Statistical Approaches
+
+### Group Comparisons
+
+- ANCOVA with age and IQ as covariates
+- Post-hoc comparisons with FDR correction
+- Nonparametric permutation testing for robustness
+- Bayesian model comparison where appropriate
+
+### Developmental Trajectory Analysis
+
+- Mixed-effects modeling with age as continuous predictor
+- Testing of linear and nonlinear (quadratic, spline) age effects
+- Age-by-group interactions to identify divergent developmental trajectories
+
+### Machine Learning Approaches
+
+- Feature selection using LASSO and elastic net regularization
+- Cross-validated classification using SVM, random forests, and gradient boosting
+- Nested cross-validation for hyperparameter tuning
+- Performance evaluation using accuracy, sensitivity, specificity, and AUC
+
+# Quality Control Procedures
+
+## Data Quality Metrics
+
+### MRI Quality Metrics
+
+- Framewise displacement (threshold: 0.5mm)
+- DVARS (threshold: 3% signal change)
+- Temporal SNR (minimum: 40)
+- Ghosting ratio (maximum: 0.025)
+- Contrast-to-noise ratio (minimum: 5)
+
+### EEG Quality Metrics
+
+- Channel noise levels (maximum SD: 50μV)
+- Artifact duration (maximum: 20% of recording)
+- ICA quality (minimum: 7 components explaining 60% of variance)
+- Retained trials (minimum: 75% per condition)
+
+### Behavioral Quality Metrics
+
+- Response accuracy (minimum: 75% on go/congruent trials)
+- Task compliance (maximum: 10% anticipatory responses)
+- SSRT reliability (maximum SD: 20% of mean)
+
+## Exclusion Criteria
+
+Participants were excluded from specific analyses if:
+
+1. fMRI motion exceeded 3mm translation or 3° rotation
+2. More than 20% of EEG recording was contaminated by artifacts
+3. Behavioral performance indicated poor task understanding or engagement
+4. Technical issues resulted in data loss or corruption
+
+All exclusions were documented, and sensitivity analyses were conducted to assess the impact of exclusions on results.
+
+# Additional Methodological Details
+
+Further methodological details are available in the following resources:
+
+1. Detailed MRI acquisition protocols: [GitHub Repository](https://github.com/smith-lab/fmri-protocols)
+2. EEG preprocessing scripts: [GitHub Repository](https://github.com/smith-lab/eeg-preprocessing)
+3. Analysis code for all reported results: [GitHub Repository](https://github.com/smith-lab/cognitive-control-analysis)
+4. Task paradigms and stimulus presentation code: [GitHub Repository](https://github.com/smith-lab/cognitive-tasks)

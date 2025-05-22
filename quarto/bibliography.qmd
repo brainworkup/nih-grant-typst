@@ -1,0 +1,160 @@
+---
+title: "Bibliography"
+subtitle: "Publications and Presentations from Grant #XXXXXXX"
+format:
+  html:
+    toc: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+
+# Published Articles
+
+This section lists all peer-reviewed publications resulting from research funded by this grant.
+
+## Journal Articles
+
+1. Smith J, Johnson R, Williams S. (2023). Developmental trajectories of cognitive control networks in typically developing children. *Journal of Cognitive Neuroscience*, 35(4), 598-612. PMCID: PMC8765432.
+
+2. Johnson R, Anderson K, Smith J. (2023). Neural signatures of response inhibition in children with ADHD: A multimodal neuroimaging study. *Biological Psychiatry: Cognitive Neuroscience and Neuroimaging*, 8(3), 275-288. PMCID: PMC8723456.
+
+3. Williams S, Smith J, Bessette K. (2022). Altered functional connectivity during cognitive control in autism spectrum disorder. *Autism Research*, 15(6), 1024-1038. PMCID: PMC8654321.
+
+## Book Chapters
+
+1. Smith J, Williams S. (2023). Neural mechanisms of cognitive control in neurodevelopmental disorders. In M. Johnson & N. Thompson (Eds.), *Handbook of Developmental Cognitive Neuroscience* (pp. 213-235). Oxford University Press.
+
+## Conference Proceedings
+
+1. Johnson R, Smith J, Williams S. (2023). Machine learning approaches for classifying ADHD and ASD based on neural signatures of cognitive control. *Proceedings of the International Conference on Machine Learning in Healthcare*, 245-253.
+
+# Presentations
+
+This section lists all conference presentations and invited talks related to this grant.
+
+## Invited Talks
+
+1. Smith J. (2023, June). *Neural mechanisms of cognitive control in neurodevelopmental disorders*. Invited talk presented at the Organization for Human Brain Mapping Annual Meeting, Montreal, Canada.
+
+2. Smith J. (2023, February). *Multimodal neuroimaging approaches to studying cognitive control*. Invited departmental colloquium at Stanford University, Stanford, CA.
+
+3. Johnson R. (2022, November). *Computational approaches to characterizing neural dynamics in developmental disorders*. Invited talk at the MIT Brain and Cognitive Sciences Colloquium Series, Cambridge, MA.
+
+## Conference Presentations
+
+### 2023
+
+1. Johnson R, Smith J. (2023, May). *Disorder-specific neural signatures in ADHD and ASD*. Poster presented at the International Society for Autism Research Annual Meeting, Stockholm, Sweden.
+
+2. Williams S, Anderson K, Smith J. (2023, March). *Computational modeling of cognitive control performance based on neural network dynamics*. Poster presented at the Cognitive Neuroscience Society Annual Meeting, San Francisco, CA.
+
+3. Bessette K, Williams S, Smith J. (2023, January). *Individual differences in neural network dynamics predict cognitive control abilities across diagnostic categories*. Poster presented at the Winter Conference on Brain Research, Snowbird, UT.
+
+### 2022
+
+1. Smith J, Johnson R, Williams S. (2022, November). *Developmental trajectories of neural circuits supporting cognitive control*. Talk presented at the Society for Neuroscience Annual Meeting, Chicago, IL.
+
+2. Bessette K, Williams S, Smith J. (2022, September). *Predicting individual differences in cognitive control performance using machine learning approaches*. Poster presented at the American Academy of Child and Adolescent Psychiatry Annual Meeting, Toronto, Canada.
+
+3. Anderson K, Johnson R, Smith J. (2022, June). *Simultaneous fMRI-EEG reveals temporal dynamics of cognitive control networks in ADHD*. Poster presented at the Organization for Human Brain Mapping Annual Meeting, Glasgow, Scotland.
+
+# Under Review
+
+This section lists manuscripts that have been submitted and are currently under review.
+
+1. Smith J, Bessette K, Johnson R, Williams S. (under review). Integrating behavioral and neural measures of cognitive control to predict real-world outcomes in neurodevelopmental disorders. *Journal of Child Psychology and Psychiatry*.
+
+2. Johnson R, Williams S, Smith J. (under review). A novel computational approach for characterizing individual differences in neural network dynamics during cognitive control. *NeuroImage*.
+
+# In Preparation
+
+This section lists manuscripts that are in preparation for submission.
+
+1. Williams S, Johnson R, Smith J. (in preparation). Longitudinal changes in neural signatures of cognitive control across development in autism spectrum disorder.
+
+2. Bessette K, Anderson K, Smith J. (in preparation). Machine learning classification of ADHD and ASD based on multimodal neuroimaging features.
+
+3. Smith J, Williams S, Johnson R. (in preparation). The relationship between neural network dynamics and cognitive control abilities transcends diagnostic boundaries.
+
+# Open Science Contributions
+
+This section lists datasets, code, and other research products that have been made publicly available.
+
+## Datasets
+
+1. Smith J, Johnson R, Williams S. (2023). Multimodal neuroimaging dataset for cognitive control in neurodevelopmental disorders. *OpenNeuro*. [Dataset]. doi:10.18112/openneuro.ds004321.v1.0.0
+
+## Software and Analysis Pipelines
+
+1. Johnson R, Smith J. (2023). fMRI-EEG preprocessing pipeline for simultaneous recordings during cognitive control tasks. *GitHub*. https://github.com/johnson-lab/fmri-eeg-pipeline
+
+2. Williams S, Smith J. (2022). Computational models for characterizing neural network dynamics. *GitHub*. https://github.com/smith-lab/neural-dynamics-toolbox
+
+# Acknowledgments {.unnumbered}
+
+All publications and presentations include the following acknowledgment:
+
+"This research was supported by the National Institute of Mental Health (Grant #XXXXXXX to J. Smith)."
+
+```{r}
+#| echo: false
+#| fig.height: 6
+#| fig.width: 8
+#| fig.cap: "Publication timeline by type"
+
+# Load required libraries
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(lubridate)
+})
+
+# Create publication data
+publications <- tibble(
+  title = c(
+    "Altered functional connectivity during cognitive control in autism spectrum disorder",
+    "Developmental trajectories of cognitive control networks in typically developing children",
+    "Neural signatures of response inhibition in children with ADHD: A multimodal neuroimaging study",
+    "Neural mechanisms of cognitive control in neurodevelopmental disorders",
+    "Machine learning approaches for classifying ADHD and ASD based on neural signatures of cognitive control"
+  ),
+  type = c(
+    "Journal Article",
+    "Journal Article",
+    "Journal Article",
+    "Book Chapter",
+    "Conference Proceeding"
+  ),
+  date = c(
+    "2022-09-15",
+    "2023-01-20",
+    "2023-03-12",
+    "2023-05-30",
+    "2023-07-15"
+  ),
+  journal = c(
+    "Autism Research",
+    "Journal of Cognitive Neuroscience",
+    "Biological Psychiatry: CNNI",
+    "Handbook of Developmental Cognitive Neuroscience",
+    "Proceedings of ICMLH"
+  )
+) %>%
+  mutate(date = as.Date(date),
+         month = floor_date(date, "month"))
+
+# Create publication timeline
+ggplot(publications, aes(x = date, y = reorder(type, desc(type)), color = type)) +
+  geom_point(size = 4, alpha = 0.7) +
+  geom_text(aes(label = journal), hjust = -0.1, size = 3, fontface = "italic") +
+  scale_color_brewer(palette = "Set1") +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b %Y",
+               limits = c(as.Date("2022-07-01"), as.Date("2023-09-01"))) +
+  labs(title = "Publications Timeline",
+       subtitle = "Publications resulting from grant research",
+       x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.text.y = element_text(size = 11, face = "bold"))
