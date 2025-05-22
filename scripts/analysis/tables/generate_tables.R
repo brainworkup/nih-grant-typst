@@ -168,14 +168,14 @@ create_correlation_table <- function(
 # Example usage (commented out)
 #
 # # Create sample demographic data
-# demographics <- data.frame(
-#   Group = c("TD", "ADHD", "ASD"),
-#   N = c(50, 48, 45),
-#   Age = c("12.4 (3.2)", "12.1 (3.5)", "11.8 (3.3)"),
-#   Sex = c("25M/25F", "30M/18F", "32M/13F"),
-#   IQ = c("112.3 (12.5)", "108.6 (13.2)", "106.8 (15.4)"),
-#   SES = c("46.8 (11.2)", "43.2 (12.5)", "44.5 (13.1)")
-# )
+demographics <- data.frame(
+  Group = c("TD", "ADHD", "ASD"),
+  N = c(50, 48, 45),
+  Age = c("12.4 (3.2)", "12.1 (3.5)", "11.8 (3.3)"),
+  Sex = c("25M/25F", "30M/18F", "32M/13F"),
+  IQ = c("112.3 (12.5)", "108.6 (13.2)", "106.8 (15.4)"),
+  SES = c("46.8 (11.2)", "43.2 (12.5)", "44.5 (13.1)")
+)
 #
 # # Create and save demographic table
-# create_demographic_table(demographics, "demographic_table.html")
+create_demographic_table(demographics, "demographic_table.html")
