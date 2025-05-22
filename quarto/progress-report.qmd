@@ -1,0 +1,351 @@
+---
+title: "NIH Grant Progress Report"
+subtitle: "Year X of Grant #XXXXXXX"
+author: "Principal Investigator: Dr. Jane Smith"
+date: today
+format:
+  html:
+    toc: true
+    code-fold: true
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  echo: true
+  warning: false
+  message: false
+bibliography: references/progress-report-refs.bib
+---
+
+```{r setup}
+#| include: false
+
+# Load required libraries
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+library(patchwork)
+library(viridis)
+library(scales)
+library(kableExtra)
+
+# Set default chunk options
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8,
+  fig.height = 5,
+  dpi = 300,
+  out.width = "100%"
+)
+
+# Set theme for plots
+theme_set(
+  theme_minimal(base_size = 12) +
+    theme(
+      plot.title = element_text(face = "bold", size = 14),
+      plot.subtitle = element_text(size = 12, color = "gray30"),
+      legend.position = "bottom",
+      panel.grid.minor = element_blank()
+    )
+)
+```
+
+# Project Summary
+
+This progress report summarizes the accomplishments, challenges, and future directions of our NIH-funded research project titled "Understanding Neural Mechanisms of Cognitive Control in Neurodevelopmental Disorders" (Grant #XXXXXXX) for the period from [Start Date] to [End Date].
+
+The primary goal of this research is to characterize the neural mechanisms of cognitive control across typical development and in neurodevelopmental disorders, specifically attention deficit hyperactivity disorder (ADHD) and autism spectrum disorder (ASD). We are utilizing multimodal neuroimaging techniques and advanced computational approaches to identify neural signatures that can inform diagnosis and intervention.
+
+## Administrative Information
+
+| Item | Information |
+|------|-------------|
+| Grant Number | XXXXXXX |
+| Project Period | MM/DD/YYYY - MM/DD/YYYY |
+| Reporting Period | MM/DD/YYYY - MM/DD/YYYY |
+| Principal Investigator | Dr. Jane Smith |
+| Institution | University Medical Center |
+| Contact Information | email@institution.edu, (555) 555-5555 |
+
+# Specific Aims and Progress
+
+This section details our progress toward each of the specific aims outlined in the original grant proposal.
+
+## Aim 1: Characterize developmental trajectories of neural circuits supporting cognitive control
+
+**Original Hypothesis:** Cognitive control networks show protracted developmental trajectories that differ between typically developing children and those with ADHD or ASD.
+
+### Progress on Aim 1
+
+We have completed data collection for 48/60 typically developing children, 52/60 children with ADHD, and 45/60 children with ASD across the planned age range (7-18 years). All participants completed the battery of cognitive control tasks during simultaneous fMRI-EEG recording.
+
+Preliminary analyses indicate significant differences in developmental trajectories of activation in prefrontal cortical regions, particularly in the dorsolateral prefrontal cortex and anterior cingulate cortex.
+
+```{r aim1-plot, fig.cap="Figure 1: Developmental trajectories of DLPFC activation during the Stop Signal Task across groups."}
+# Simulate data for demonstration purposes
+set.seed(123)
+age_range <- 7:18
+n_per_age_td <- 4 # 4 subjects per age in TD group
+n_per_age_adhd <- 4 # 4 subjects per age in ADHD group
+n_per_age_asd <- 3 # 3-4 subjects per age in ASD group (slightly fewer)
+
+# Generate simulated data
+generate_data <- function(ages, n_per_age, group, intercept, slope, noise_sd) {
+  data <- data.frame()
+  for (age in ages) {
+    n <- n_per_age
+    if (group == "ASD" && age > 15) n <- n - 1 # Fewer ASD participants in older ages
+
+    age_data <- data.frame(
+      age = rep(age, n),
+      group = rep(group, n),
+      activation = intercept + slope * age + rnorm(n, 0, noise_sd)
+    )
+    data <- rbind(data, age_data)
+  }
+  return(data)
+}
+
+# Generate data for each group with different developmental trajectories
+td_data <- generate_data(
+  age_range,
+  n_per_age_td,
+  "Typically Developing",
+  0.2,
+  0.05,
+  0.1
+)
+adhd_data <- generate_data(age_range, n_per_age_adhd, "ADHD", 0.1, 0.03, 0.15)
+asd_data <- generate_data(age_range, n_per_age_asd, "ASD", 0.15, 0.02, 0.12)
+
+# Combine data
+all_data <- rbind(td_data, adhd_data, asd_data)
+
+# Create plot
+ggplot(all_data, aes(x = age, y = activation, color = group)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, linewidth = 1.2) +
+  scale_color_viridis_d(option = "plasma", end = 0.8) +
+  labs(
+    title = "Developmental Trajectories of DLPFC Activation",
+    subtitle = "During Stop Signal Task Performance",
+    x = "Age (years)",
+    y = "DLPFC Activation (% signal change)",
+    color = "Group"
+  ) +
+  theme(legend.position = "bottom")
+```
+
+The data show that typically developing children exhibit a steeper developmental trajectory in DLPFC activation compared to children with ADHD or ASD. These findings support our hypothesis of altered developmental trajectories in cognitive control networks in neurodevelopmental disorders.
+
+## Aim 2: Identify disorder-specific neural signatures of cognitive control deficits
+
+**Original Hypothesis:** ADHD and ASD are associated with distinct patterns of neural dysfunction during cognitive control tasks, despite behavioral similarities.
+
+### Progress on Aim 2
+
+We have applied machine learning techniques to the collected neuroimaging data to identify potential biomarkers that differentiate between the diagnostic groups. Our preliminary analyses have achieved classification accuracy of 78% for distinguishing ADHD from typically developing children, and 72% for distinguishing ASD from typically developing children.
+
+```{r aim2-plot, fig.cap="Figure 2: Classification performance using multivariate pattern analysis."}
+# Simulate classification performance data
+set.seed(234)
+classification_data <- data.frame(
+  comparison = rep(c("TD vs ADHD", "TD vs ASD", "ADHD vs ASD"), each = 100),
+  accuracy = c(
+    rbeta(100, 78, 22) * 100, # TD vs ADHD (mean ~78%)
+    rbeta(100, 72, 28) * 100, # TD vs ASD (mean ~72%)
+    rbeta(100, 68, 32) * 100 # ADHD vs ASD (mean ~68%)
+  )
+)
+
+# Plot classification performance
+ggplot(
+  classification_data,
+  aes(x = comparison, y = accuracy, fill = comparison)
+) +
+  geom_violin(alpha = 0.7, scale = "width") +
+  geom_boxplot(width = 0.2, alpha = 0.7) +
+  scale_fill_viridis_d(option = "turbo", begin = 0.2, end = 0.8) +
+  labs(
+    title = "Classification Performance Using Neural Signatures",
+    subtitle = "Based on fMRI-EEG data during cognitive control tasks",
+    x = "Group Comparison",
+    y = "Classification Accuracy (%)",
+    fill = "Comparison"
+  ) +
+  theme(legend.position = "none") +
+  coord_cartesian(ylim = c(50, 100)) +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "gray50")
+```
+
+More importantly, we have identified distinct spatial patterns of neural activation that characterize each disorder. Children with ADHD show reduced activation in frontostriatal circuits, particularly in the right inferior frontal gyrus and dorsal striatum. In contrast, children with ASD show hyperactivation in the posterior parietal cortex and reduced functional connectivity between frontal and parietal regions.
+
+## Aim 3: Determine relationship between neural network dynamics and individual differences
+
+**Original Hypothesis:** Individual differences in cognitive control abilities are better predicted by neural network dynamics than by diagnostic category.
+
+### Progress on Aim 3
+
+We have developed computational models that predict cognitive control performance based on neural network dynamics. Our models currently explain approximately 45% of the variance in performance on the Stop Signal Task, with neural features contributing significantly more predictive power than diagnostic category alone.
+
+```{r aim3-plot, fig.cap="Figure 3: Variance explained by different predictive models."}
+# Simulate variance explained data
+model_data <- data.frame(
+  model = c("Diagnostic Category", "Neural Features", "Combined Model"),
+  variance_explained = c(0.18, 0.38, 0.45),
+  se = c(0.03, 0.04, 0.05)
+)
+
+# Plot variance explained
+ggplot(model_data, aes(x = model, y = variance_explained, fill = model)) +
+  geom_col(position = position_dodge(), alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = variance_explained - se, ymax = variance_explained + se),
+    width = 0.2,
+    position = position_dodge(0.9)
+  ) +
+  scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
+  labs(
+    title = "Predictive Power of Different Models",
+    subtitle = "Variance explained in cognitive control performance",
+    x = NULL,
+    y = expression(R^2),
+    fill = "Model"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = "none")
+```
+
+This finding supports our hypothesis that neural network dynamics provide better prediction of cognitive control abilities than diagnostic category alone. We are continuing to refine these models and explore the potential for personalized prediction.
+
+# Research Accomplishments
+
+## Participant Recruitment and Data Collection
+
+```{r recruitment-table}
+# Create recruitment summary table
+recruitment_data <- data.frame(
+  Group = c("Typically Developing", "ADHD", "ASD", "Total"),
+  Target = c(60, 60, 60, 180),
+  Recruited = c(52, 58, 49, 159),
+  Completed = c(48, 52, 45, 145),
+  `Completion Rate` = c("92.3%", "89.7%", "91.8%", "91.2%")
+)
+
+# Format as table
+kable(
+  recruitment_data,
+  caption = "Table 1: Participant recruitment and completion status."
+) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE
+  ) %>%
+  row_spec(nrow(recruitment_data), bold = TRUE)
+```
+
+## Publications and Presentations
+
+During this reporting period, our team has published 3 peer-reviewed articles and presented our findings at 5 scientific conferences.
+
+### Publications
+
+1. Smith J, Johnson R, Williams S. (2023). Developmental trajectories of cognitive control networks in typically developing children. *Journal of Cognitive Neuroscience*, 35(4), 598-612. PMCID: PMC8765432.
+
+2. Johnson R, Anderson K, Smith J. (2023). Neural signatures of response inhibition in children with ADHD: A multimodal neuroimaging study. *Biological Psychiatry: Cognitive Neuroscience and Neuroimaging*, 8(3), 275-288. PMCID: PMC8723456.
+
+3. Williams S, Smith J, Bessette K. (2022). Altered functional connectivity during cognitive control in autism spectrum disorder. *Autism Research*, 15(6), 1024-1038. PMCID: PMC8654321.
+
+### Presentations
+
+1. Smith J. (2023, June). *Neural mechanisms of cognitive control in neurodevelopmental disorders*. Invited talk presented at the Organization for Human Brain Mapping Annual Meeting, Montreal, Canada.
+
+2. Johnson R, Smith J. (2023, May). *Disorder-specific neural signatures in ADHD and ASD*. Poster presented at the International Society for Autism Research Annual Meeting, Stockholm, Sweden.
+
+3. Williams S, Anderson K, Smith J. (2023, March). *Computational modeling of cognitive control performance based on neural network dynamics*. Poster presented at the Cognitive Neuroscience Society Annual Meeting, San Francisco, CA.
+
+4. Smith J, Johnson R, Williams S. (2022, November). *Developmental trajectories of neural circuits supporting cognitive control*. Talk presented at the Society for Neuroscience Annual Meeting, Chicago, IL.
+
+5. Bessette K, Williams S, Smith J. (2022, September). *Predicting individual differences in cognitive control performance using machine learning approaches*. Poster presented at the American Academy of Child and Adolescent Psychiatry Annual Meeting, Toronto, Canada.
+
+## New Methods and Techniques
+
+We have developed a novel pipeline for simultaneous fMRI-EEG data processing that addresses common artifacts and improves signal quality. This pipeline has been made publicly available as an open-source toolbox, which has already been downloaded by 35 research groups worldwide.
+
+We have also developed a new computational approach for characterizing individual differences in neural network dynamics during cognitive control tasks. This approach combines graph theoretical measures with machine learning techniques to identify person-specific patterns of neural activity.
+
+# Plans for the Next Year
+
+In the upcoming year, we plan to:
+
+1. Complete participant recruitment and data collection for all three groups.
+2. Finalize analyses for Aims 1 and 2, and prepare manuscripts for publication.
+3. Expand our computational modeling approach for Aim 3 to incorporate longitudinal data.
+4. Begin follow-up assessments for a subset of participants to examine the stability of neural signatures over time.
+5. Develop and test a prototype tool for clinical assessment based on our neural signatures, in collaboration with clinical partners.
+
+# Challenges and Solutions
+
+## Challenges Encountered
+
+1. **Recruitment Challenges**: We experienced some difficulty recruiting older adolescents with ASD (15-18 years), which has led to a slight imbalance in our age distribution for this group.
+
+2. **Technical Challenges**: Initial attempts at simultaneous fMRI-EEG recording produced substantial artifacts that compromised data quality for approximately 10% of sessions.
+
+## Solutions Implemented
+
+1. **Recruitment Strategy**: We have expanded our recruitment efforts through additional community partnerships and have implemented a targeted social media campaign to reach families with adolescents with ASD.
+
+2. **Technical Solutions**: We have refined our simultaneous fMRI-EEG recording protocols and developed improved artifact correction algorithms. Our current protocol has reduced data loss to less than 3% of sessions.
+
+# Budget Status
+
+```{r budget-status}
+# Create budget summary table
+budget_categories <- c(
+  "Personnel",
+  "Equipment",
+  "Supplies",
+  "Travel",
+  "Participant Costs",
+  "Other Direct Costs",
+  "Indirect Costs",
+  "Total"
+)
+
+budget_data <- data.frame(
+  Category = budget_categories,
+  Budgeted = c(285000, 125000, 30000, 20000, 60000, 145000, 199500, 864500),
+  Spent = c(271250, 122500, 27500, 17500, 53000, 139000, 189562.5, 820312.5),
+  Remaining = c(13750, 2500, 2500, 2500, 7000, 6000, 9937.5, 44187.5),
+  `Percent Spent` = c(
+    "95.2%",
+    "98.0%",
+    "91.7%",
+    "87.5%",
+    "88.3%",
+    "95.9%",
+    "95.0%",
+    "94.9%"
+  )
+)
+
+# Format as table with dollar amounts
+kable(
+  budget_data,
+  caption = "Table 2: Budget summary for the current reporting period."
+) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE
+  ) %>%
+  column_spec(2:4, format = "dollar") %>%
+  row_spec(nrow(budget_data), bold = TRUE)
+```
+
+The project is currently on budget, with approximately 95% of funds spent as expected for this stage of the project. We anticipate no budget concerns for the upcoming year.
+
+# References {.unnumbered}

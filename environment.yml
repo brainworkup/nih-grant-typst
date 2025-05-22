@@ -1,0 +1,72 @@
+name: nih-grant-typst
+channels:
+  - conda-forge
+  - bioconda
+  - r
+  - defaults
+dependencies:
+  # Python core
+  - python=3.10
+  - pip>=23.0
+
+  # Python packages for reference formatting and data analysis
+  - pandas>=2.0.0
+  - numpy>=1.24.0
+  - matplotlib>=3.7.0
+  - seaborn>=0.12.0
+  - regex>=2022.10.0
+  - requests>=2.28.0
+  - pathlib>=1.0.1
+
+  # R and core packages
+  - r-base>=4.2.0
+  - r-essentials
+
+  # R packages for data visualization and analysis
+  - r-tidyverse>=2.0.0
+  - r-ggplot2>=3.4.0
+  - r-dplyr>=1.1.0
+  - r-patchwork>=1.1.0
+  - r-viridis>=0.6.0
+  - r-scales>=1.2.0
+  - r-knitr>=1.40
+  - r-rmarkdown>=2.20
+
+  # Document processing
+  - pandoc>=3.1.0
+
+  # Statistics and machine learning
+  - r-lme4>=1.1.0
+  - r-nlme>=3.1.0
+  - r-broom>=1.0.0
+  - r-car>=3.1.0
+  - scikit-learn>=1.2.0
+
+  # Bioinformatics
+  - bioconductor-limma
+  - bioconductor-deseq2
+  - bioconductor-edger
+  - r-pheatmap>=1.0.0
+
+  # Additional dependencies
+  - quarto>=1.3.0
+  - jupyter>=1.0.0
+  - pip:
+      # Additional Python packages from PyPI
+      - typst-cli>=0.9.0  # Typst compiler
+      - bibtexparser>=1.4.0
+      - pylatexenc>=3.0.0
+      - scholarly>=1.7.0  # For fetching citation data
+      - pyparsing>=3.0.0
+      - pygments>=2.15.0  # Syntax highlighting
+
+      # Development tools
+      - black>=23.0.0     # Code formatting
+      - pytest>=7.3.0     # Testing
+      - ruff>=0.0.260     # Linting
+
+# Variables to set
+variables:
+  # Set environment variables
+  PYTHONPATH: ${CONDA_PREFIX}/lib/python3.10/site-packages
+  R_LIBS_USER: ${CONDA_PREFIX}/lib/R/library

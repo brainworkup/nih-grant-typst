@@ -1,0 +1,81 @@
+project:
+  type: book
+  output-dir: _output
+  execute-dir: project
+
+book:
+  title: "NIH Grant Progress Reports"
+  author: "Your Name"
+  date: today
+  chapters:
+    - index.qmd
+    - progress-report.qmd
+    - bibliography.qmd
+  appendices:
+    - appendix-a.qmd
+    - appendix-b.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: github
+    html-math-method: katex
+    fig-width: 8
+    fig-height: 6
+    fig-dpi: 300
+
+  pdf:
+    documentclass: article
+    papersize: letter
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    linestretch: 1.5
+    mainfont: Arial
+    mathfont: STIX Two Math
+    sansfont: Arial
+    colorlinks: true
+    linkcolor: blue
+    urlcolor: blue
+    number-sections: true
+    fig-width: 7
+    fig-height: 5
+    fig-dpi: 300
+    include-in-header:
+      text: |
+        \usepackage{booktabs}
+        \usepackage{longtable}
+        \usepackage{array}
+        \usepackage{multirow}
+        \usepackage{wrapfig}
+        \usepackage{float}
+        \usepackage{colortbl}
+        \usepackage{pdflscape}
+        \usepackage{tabu}
+        \usepackage{threeparttable}
+        \usepackage[normalem]{ulem}
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: true
+  freeze: auto
+
+bibliography: references/progress-report-refs.bib
+csl: references/american-medical-association.csl
+
+filters:
+  - include-code-files
+  - quarto-crossref
+
+crossref:
+  fig-title: "Figure"
+  tbl-title: "Table"
+  eq-title: "Equation"
+
+engine: knitr
