@@ -23,10 +23,10 @@ jobs:
           version: 'latest'
 
       - name: Compile R01 template
-        run: typst compile templates/R01/R01.typ outputs/R01_template.pdf
+        run: typst compile --root . templates/R01/R01.typ outputs/R01_template.pdf
 
       - name: Compile R03 template
-        run: typst compile templates/R03/R03.typ outputs/R03_template.pdf
+        run: typst compile --root . templates/R03/R03.typ outputs/R03_template.pdf
 
       - name: Upload compiled PDFs
         uses: actions/upload-artifact@v4

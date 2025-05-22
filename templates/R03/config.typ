@@ -62,8 +62,8 @@
   approach
 }
 
-// Function for bibliography
-#let bibliography(bibfile) = {
+// Function for bibliography section
+#let references(bibfile) = {
   heading(level: 1, [BIBLIOGRAPHY & REFERENCES CITED])
-  bibliography(bibfile, style: "vancouver")
+  bibliography(bibfile)
 }

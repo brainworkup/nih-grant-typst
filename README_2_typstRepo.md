@@ -45,11 +45,13 @@ nih-grant-typst/
 **1. Key Components:**
 
 - **Templates**: Organized by grant type with modular sections
+
   - `config.typ` for NIH formatting requirements (margins, fonts, page limits)
   - Shared components for common sections (budget tables, biosketches)
   - Reference management with BibTeX integration
 
 - **VS Code Configuration**:
+
   ```json
   // .vscode/extensions.json
   {
@@ -71,7 +73,7 @@ nih-grant-typst/
 
 **2. Setup Instructions (README.md):**
 
-```markdown
+````markdown
 # NIH Grant Templates with Typst
 
 A modern workflow for creating NIH grant applications using reproducible research tools.
@@ -89,13 +91,14 @@ A modern workflow for creating NIH grant applications using reproducible researc
 git clone https://github.com/yourusername/nih-grant-typst
 cd nih-grant-typst
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate.fish
 pip install -r requirements.txt
 Rscript -e "install.packages(c('ggplot2', 'rmarkdown'))"
 
 # Compile sample R01
 typst compile templates/R01/R01.typ
 ```
+````
 
 ## Features
 
@@ -103,28 +106,34 @@ typst compile templates/R01/R01.typ
 - Dynamic budget tables with Python calculations
 - Collaborative writing with Git version control
 - Quarto integration for data-driven narratives
-```
+
+````
 
 **3. Typical Workflow:**
 
 1. User selects template:
    ```bash
    typst new R01 --template templates/R01
-   ```
+````
 
 2. Integrates data analysis:
+
    ```typst
    #import "scripts/analysis/figures/stress_test.png": fig
    #figure(fig, width: 65%)[Stress test results]
    ```
 
 3. Combines with Quarto for preliminary data:
-   ```qmd
+
+   ````qmd
    #| echo: false
    ```{python}
    from NIHtools import format_table
    print(format_table(stats))
+   ````
+
    ```
+
    ```
 
 4. Final validation:
