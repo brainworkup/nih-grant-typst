@@ -1,0 +1,28 @@
+---
+title: "Data Analysis for NIH Grant"
+format: html
+---
+
+```{r}
+#| label: fig-survival
+#| fig-cap: "Survival analysis comparing treatment groups"
+
+library(survival)
+library(ggplot2)
+
+# Analysis code here
+ggplot(survival_data, aes(x = time, y = surv, color = group)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Kaplan-Meier Survival Curves")
+```
+
+The figure will be exported and can be referenced in your Typst document:
+
+```typst
+#figure(
+  image("figures/survival-plot.png"),
+  caption: [Survival analysis comparing treatment groups.]
+)
+```
+```
