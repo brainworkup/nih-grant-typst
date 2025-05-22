@@ -1,6 +1,10 @@
 ---
 title: "Data Analysis for NIH Grant"
-format: html
+format: typst
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
 ```{r}
@@ -9,6 +13,8 @@ format: html
 
 library(survival)
 library(ggplot2)
+
+survival_data <- readr::read_csv("data/raw/clinical/survival_data.csv")
 
 # Analysis code here
 ggplot(survival_data, aes(x = time, y = surv, color = group)) +
@@ -24,5 +30,4 @@ The figure will be exported and can be referenced in your Typst document:
   image("figures/survival-plot.png"),
   caption: [Survival analysis comparing treatment groups.]
 )
-```
 ```

@@ -47,3 +47,6 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+example_files/
+
+bootstrap/bootstrap-54e3e7770afa53bb57f7dd5e90680ac5.min.css
