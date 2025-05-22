@@ -1,0 +1,9 @@
+// .vscode/extensions.json
+{
+  "recommendations": [
+    "nvarner.typst-lsp",
+    "quarto.quarto",
+    "r-lang.r",
+    "ms-python.python"
+  ]
+}
