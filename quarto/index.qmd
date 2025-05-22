@@ -1,140 +1,42 @@
 ---
 title: "NIH Grant Progress Reports"
-subtitle: "Neural Mechanisms of Cognitive Control in Neurodevelopmental Disorders"
-format:
-  html:
-    toc: true
-  pdf:
-    toc: true
-    number-sections: false
+author: "Your Name"
+date: last-modified
 ---
 
-# Overview {.unnumbered}
+# Welcome
 
-This document contains progress reports for the NIH-funded research grant "Understanding Neural Mechanisms of Cognitive Control in Neurodevelopmental Disorders" (Grant #XXXXXXX). These reports document the research progress, significant findings, challenges, and future directions of our project.
+This document serves as a central hub for NIH Grant Progress Reports. This Quarto project enables you to:
 
-## Project Summary {.unnumbered}
+1. Create standardized progress reports following NIH guidelines
+2. Include R code, data visualization, and statistical analyses
+3. Generate both HTML and PDF outputs with consistent formatting
+4. Manage references efficiently using BibTeX
 
-Cognitive control deficits are a core feature of many neurodevelopmental disorders, yet the underlying neural mechanisms remain poorly understood. This research aims to characterize the neural mechanisms of cognitive control across typical development and in neurodevelopmental disorders, specifically attention deficit hyperactivity disorder (ADHD) and autism spectrum disorder (ASD).
+## Navigation
 
-Our specific aims are:
+- [Progress Report](progress-report.qmd): Detailed project progress and accomplishments
+- [Bibliography](bibliography.qmd): Complete list of references cited in progress reports
+- [Appendix A](appendix-a.qmd): Supplementary materials and additional analyses
+- [Appendix B](appendix-b.qmd): Extended data tables and figures
 
-1. **Characterize developmental trajectories of neural circuits supporting cognitive control**
-2. **Identify disorder-specific neural signatures of cognitive control deficits**
-3. **Determine the relationship between neural network dynamics and individual differences in cognitive control abilities**
+## Getting Started
 
-## Research Team {.unnumbered}
+To create a new progress report, you can use the `progress-report.qmd` as a template. The template includes:
 
-- **Principal Investigator:** Dr. Jane Smith, University Medical Center
-- **Co-Investigators:**
-  - Dr. Robert Johnson (Neuroimaging)
-  - Dr. Sarah Williams (Developmental Psychopathology)
-- **Research Staff:**
-  - Two Postdoctoral Researchers
-  - Two Research Assistants
-  - MRI Technician (25% effort)
+- YAML front matter with appropriate formatting options
+- Pre-loaded R libraries for data visualization
+- Sections structured according to NIH progress report requirements
+- Citation capabilities linked to the bibliography
 
-## Grant Information {.unnumbered}
+## Using This Template
 
-- **Grant Number:** XXXXXXX
-- **Funding Agency:** National Institute of Mental Health (NIMH)
-- **Project Period:** MM/DD/YYYY - MM/DD/YYYY
-- **Total Award:** $XXXXXXX
+1. Clone or copy the `progress-report.qmd` file
+2. Update the YAML front matter with your grant information
+3. Fill in each section with your project-specific information
+4. Add references to `references/progress-report-refs.bib`
+5. Render the document using Quarto:
 
-## Report Contents {.unnumbered}
-
-This collection includes:
-
-- **Progress Reports**: Detailed annual reports on research progress, accomplishments, and challenges
-- **Bibliography**: Comprehensive list of publications and presentations resulting from this research
-- **Appendices**: Additional documentation including technical details and supplementary analyses
-
-## Navigation {.unnumbered}
-
-Use the navigation panel on the left to access different sections of the report. The main content is organized as follows:
-
-- [Progress Report](progress-report.qmd): Detailed summary of research activities, findings, and future plans
-- [Bibliography](bibliography.qmd): Publications and presentations resulting from this research
-- [Appendix A](appendix-a.qmd): Technical details of data collection and analysis methods
-- [Appendix B](appendix-b.qmd): Supplementary analyses and additional figures
-
-## Report Generation Information {.unnumbered}
-
-These reports were generated using Quarto, a scientific and technical publishing system built on Pandoc. This allows for the creation of dynamic documents that combine narrative text with R code for data analysis and visualization.
-
-The source code and data for these reports are maintained in a version-controlled repository following best practices for reproducible research. Each report includes:
-
-- Transparent documentation of methods and analyses
-- Dynamic generation of figures and tables from the raw data
-- Literate programming approach that combines code, results, and interpretation
-
-## Data Management {.unnumbered}
-
-All research data supporting these progress reports are managed according to the Data Management Plan approved by NIH. This includes:
-
-- Secure storage of all raw and processed data
-- Comprehensive documentation of data collection and processing procedures
-- Rigorous quality control measures
-- Preparation for data sharing in accordance with NIH guidelines
-
-## Contact Information {.unnumbered}
-
-For questions regarding this research or these reports, please contact:
-
-Dr. Jane Smith
-Department of Neuroscience
-University Medical Center
-Email: jane.smith@university.edu
-Phone: (555) 555-5555
-
-```{r}
-#| echo: false
-#| fig.width: 8
-#| fig.height: 4
-#| fig.cap: "Project timeline with current reporting period highlighted"
-
-# Load required libraries
-suppressPackageStartupMessages({
-  library(ggplot2)
-  library(dplyr)
-  library(lubridate)
-})
-
-# Create a timeline dataset
-project_start <- as.Date("2022-07-01")
-project_end <- as.Date("2027-06-30")
-current_date <- Sys.Date()
-current_year <- as.numeric(format(current_date, "%Y"))
-
-timeline_data <- tibble(
-  phase = c("Year 1", "Year 2", "Year 3", "Year 4", "Year 5"),
-  start_date = project_start + years(0:4),
-  end_date = project_start + years(1:5) - days(1),
-  current = c(
-    between(current_date, project_start, project_start + years(1) - days(1)),
-    between(current_date, project_start + years(1), project_start + years(2) - days(1)),
-    between(current_date, project_start + years(2), project_start + years(3) - days(1)),
-    between(current_date, project_start + years(3), project_start + years(4) - days(1)),
-    between(current_date, project_start + years(4), project_start + years(5) - days(1))
-  )
-)
-
-# Create a timeline visualization
-ggplot(timeline_data, aes(xmin = start_date, xmax = end_date, y = phase, fill = current)) +
-  geom_rect(aes(ymin = as.numeric(factor(phase)) - 0.4,
-                ymax = as.numeric(factor(phase)) + 0.4),
-            alpha = 0.8) +
-  scale_fill_manual(values = c("FALSE" = "#BBDEFB", "TRUE" = "#1976D2")) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%b %Y",
-               limits = c(project_start, project_end)) +
-  labs(title = "Five-Year Project Timeline",
-       subtitle = paste("Current reporting period:",
-                        format(timeline_data$start_date[timeline_data$current], "%b %Y"),
-                        "to",
-                        format(timeline_data$end_date[timeline_data$current], "%b %Y")),
-       x = NULL, y = NULL) +
-  theme_minimal(base_size = 12) +
-  theme(legend.position = "none",
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        axis.text.y = element_text(size = 11, face = "bold"))
+```bash
+quarto render progress-report.qmd
+```
