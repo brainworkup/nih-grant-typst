@@ -1,9 +1,10 @@
-// .vscode/extensions.json
 {
   "recommendations": [
     "nvarner.typst-lsp",
+    "mgt19937.typst-preview",
+    "mathematic.vscode-pdf",
     "quarto.quarto",
-    "r-lang.r",
+    "REditorSupport.r",
     "ms-python.python"
   ]
 }

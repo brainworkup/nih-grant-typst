@@ -1,0 +1,35 @@
+name: Compile Typst Documents
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'templates/**/*.typ'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'templates/**/*.typ'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Typst
+        uses: yusancky/setup-typst@v2
+        with:
+          version: 'latest'
+
+      - name: Compile R01 template
+        run: typst compile templates/R01/R01.typ outputs/R01_template.pdf
+
+      - name: Compile R03 template
+        run: typst compile templates/R03/R03.typ outputs/R03_template.pdf
+
+      - name: Upload compiled PDFs
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-pdfs
+          path: outputs/*.pdf

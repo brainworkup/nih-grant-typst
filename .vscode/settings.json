@@ -1,19 +1,16 @@
 {
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#dee2fc66",
-    "activityBar.background": "#dee2fc66",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#f26d7f",
-    "activityBarBadge.foreground": "#15202b",
-    "panel.border": "#dee2fc66",
-    "sash.hoverBorder": "#dee2fc66",
-    "tab.activeBorder": "#dee2fc66",
-    "statusBar.background": "#b0b8f766",
-    "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#828ef266",
-    "statusBarItem.remoteBackground": "#b0b8f766",
-    "statusBarItem.remoteForeground": "#15202b"
+  "typst-lsp.rootPath": "${workspaceFolder}",
+  "editor.formatOnSave": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "r.lsp.enabled": true,
+  "r.rterm.mac": "/usr/local/bin/R",
+  "[typst]": {
+    "editor.defaultFormatter": "nvarner.typst-lsp"
   },
-  "workbench.colorTheme": "Codemos Modern (Dark)"
+  "files.associations": {
+    "*.typ": "typst"
+  },
+  "typst-preview.preview.updateDebounceWait": 200,
+  "typst-preview.compiler.includeEnvironmentVariables": true
 }
