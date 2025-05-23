@@ -13,6 +13,8 @@
 ) = {
   // Page setup for biosketch
   set page(
+    width: 8.5in,
+    height: 11in,
     paper: "us-letter",
     margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
   )
