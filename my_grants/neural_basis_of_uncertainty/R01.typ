@@ -1,17 +1,27 @@
 #import "config.typ": *
-#import "../shared/specific_aims.typ": specific_aims_example
-#import "../shared/budget.typ": budget_example
 
 // Main document structure using the config template
 #show: nih-grant.with(
   title: "Understanding Neural Mechanisms of Cognitive Control in Neurodevelopmental Disorders",
   pi: "Dr. Joey Trampush",
-  institution: "USC Keck"
+  institution: "USC Keck",
 )
 
 // Specific Aims Section
 #specific_aims[
-  #specific_aims_example
+  The overall goal of this research is to characterize the neural mechanisms underlying
+  cognitive control in typical development and neurodevelopmental disorders. We will test
+  the central hypothesis that distinct patterns of neural network dysfunction contribute
+  to cognitive control deficits in ADHD and ASD through the following specific aims:
+
+  *Aim 1:* Characterize developmental trajectories of cognitive control networks in
+  typically developing children using multimodal neuroimaging.
+
+  *Aim 2:* Identify disorder-specific patterns of neural dysfunction in cognitive control
+  networks in children with ADHD and ASD.
+
+  *Aim 3:* Develop predictive models of individual differences in cognitive control
+  abilities based on neural network characteristics.
 ]
 
 // Research Strategy Section
@@ -35,16 +45,16 @@
     This proposal is innovative in several ways:
 
     1. It employs a novel multimodal neuroimaging approach combining functional magnetic
-       resonance imaging (fMRI) with electroencephalography (EEG) to capture both the spatial
-       and temporal dynamics of neural activity during cognitive control tasks.
+      resonance imaging (fMRI) with electroencephalography (EEG) to capture both the spatial
+      and temporal dynamics of neural activity during cognitive control tasks.
 
     2. It utilizes advanced computational modeling techniques to characterize individual
-       differences in neural network dynamics, moving beyond group-level analyses to capture
-       heterogeneity within diagnostic categories.
+      differences in neural network dynamics, moving beyond group-level analyses to capture
+      heterogeneity within diagnostic categories.
 
     3. It incorporates a developmental perspective by examining age-related changes in
-       cognitive control networks across a wide age range (7-18 years), allowing for the
-       identification of critical periods for intervention.
+      cognitive control networks across a wide age range (7-18 years), allowing for the
+      identification of critical periods for intervention.
   ],
 
   // Approach
@@ -67,7 +77,7 @@
     mechanisms underlying cognitive control in typical development and neurodevelopmental
     disorders. Findings will inform the development of targeted interventions and contribute
     to the identification of biomarkers for early diagnosis and treatment monitoring.
-  ]
+  ],
 )
 
 // Bibliography
@@ -75,4 +85,45 @@
 
 // Budget Section
 #heading(level: 1, [BUDGET & JUSTIFICATION])
-#budget_example
+
+[
+*Personnel (Direct Costs):*
+
+Principal Investigator (Dr. Joey Trampush): 2.4 calendar months effort per year
+
+Research Scientist: 12 calendar months effort per year
+
+Graduate Research Assistant: 12 calendar months effort per year
+
+Undergraduate Research Assistant: 6 calendar months effort per year
+
+*Equipment:*
+
+- EEG system maintenance and calibration: \$15,000
+- Scanning costs: \$180,000 (600 hours at \$300 per hour)
+- Computer workstation for data analysis: \$8,000
+
+*Supplies:*
+
+- EEG electrodes and conductive gel: \$3,000
+- Participant compensation: \$36,000 (\$200 per participant for 180 participants)
+- Office supplies and materials: \$2,000
+
+*Travel:*
+
+- Conference presentations: \$8,000
+- Collaborative meetings: \$4,000
+
+*Other Direct Costs:*
+
+- Publication fees: \$6,000
+- Data storage and backup: \$3,000
+
+*Total Direct Costs per Year:* \$265,000
+
+*Indirect Costs (30%):* \$79,500
+
+*Total Project Costs per Year:* \$344,500
+
+*Total Project Costs (5 years):* \$1,722,500
+]

@@ -2,7 +2,7 @@
 
 **Grant Type**: R01
 **PI**: Dr. Joey Trampush
-**Institution**: USC Keck
+**Institution**: USC Keck School of Medicine
 **Created**: 2025-05-23
 
 ## Files
