@@ -29,5 +29,8 @@
     "statusBarItem.remoteForeground": "#15202b",
     "tab.activeBorder": "#b5e7f8"
   },
-  "peacock.color": "#86d8f4"
+  "peacock.color": "#86d8f4",
+  "files.exclude": {
+    ".history": true
+  }
 }
