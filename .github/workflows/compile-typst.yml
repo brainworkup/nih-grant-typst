@@ -85,6 +85,13 @@ jobs:
         echo "Validating PDF compliance..."
         python tools/validate.py outputs/*.pdf
 
+    - name: Log page dimensions
+      run: |
+        for pdf in outputs/*.pdf; do
+          echo "Checking dimensions for $pdf..."
+          python tools/validate.py "$pdf"
+        done
+
     - name: Check file sizes
       run: |
         echo "Checking PDF file sizes..."
@@ -92,6 +99,7 @@ jobs:
           size=$(stat -c%s "$pdf")
           echo "$pdf: $(numfmt --to=iec-i --suffix=B $size)"
         done
+
 
     - name: Upload compiled PDFs
       uses: actions/upload-artifact@v4
