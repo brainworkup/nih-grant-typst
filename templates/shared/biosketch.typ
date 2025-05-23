@@ -13,8 +13,6 @@
 ) = {
   // Page setup for biosketch
   set page(
-    width: 8.5in,
-    height: 11in,
     paper: "us-letter",
     margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
   )
@@ -90,8 +88,8 @@
         [#grant.number],
         [#grant.pi #h(1em) (#grant.dates)]
       )
-      [#grant.title]
-      [#grant.role]
+      [#grant.title]; linebreak()
+      [#grant.role]; linebreak()
       [#grant.description]
       v(0.5em)
     }
@@ -107,16 +105,16 @@
         [#grant.number],
         [#grant.pi #h(1em) (#grant.dates)]
       )
-      [#grant.title]
-      [#grant.role]
+      [#grant.title]; linebreak()
+      [#grant.role]; linebreak()
       [#grant.description]
       v(0.5em)
     }
   }
 }
 
-// Example usage function
-#let biosketch_example = biosketch(
+// Actually render the biosketch example
+#biosketch(
   name: "Jane Smith, Ph.D.",
   eRA_commons: "JSMITH",
   position: "Professor of Neuroscience",
@@ -167,6 +165,6 @@
         description: "This project investigates neural network dynamics in children with ADHD."
       ),
     ),
-    completed: none  // Added this field to match the template's expectations
+    completed: none
   )
 )
