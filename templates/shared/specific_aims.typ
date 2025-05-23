@@ -7,7 +7,7 @@
 )
 
 // Font settings
-#set text(font: "Arial", size: 11pt)
+#set text(font: "TeX Gyre Heros", size: 11pt)
 #set par(justify: true, leading: 0.8em)
 
 // Headings configuration
