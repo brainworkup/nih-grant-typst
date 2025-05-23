@@ -59,6 +59,14 @@ jobs:
         echo "Testing shared components compilation..."
         # Create a test file that imports shared components
         cat > test_shared.typ << EOF
+        // Set page to US Letter
+        #set page(
+          paper: "us-letter",
+          margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
+          numbering: "1",
+          number-align: center,
+        )
+
         #import "templates/shared/specific_aims.typ": specific_aims_example
         #import "templates/shared/budget.typ": budget_example
         #import "templates/shared/biosketch.typ": biosketch_example
