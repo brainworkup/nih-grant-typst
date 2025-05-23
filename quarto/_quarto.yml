@@ -35,9 +35,9 @@ format:
       - margin=1in
     fontsize: 11pt
     linestretch: 1.5
-    mainfont: TeX Gyre Heros
+    mainfont: IBM Plex Sans
     mathfont: STIX Two Math
-    sansfont: TeX Gyre Heros
+    sansfont: Helvetica
     colorlinks: true
     linkcolor: blue
     urlcolor: blue

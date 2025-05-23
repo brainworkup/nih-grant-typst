@@ -17,7 +17,7 @@
     margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
   )
 
-  set text(font: "TeX Gyre Heros", size: 11pt)
+  set text(font: "Helvetica", size: 11pt)
   set par(justify: false, leading: 0.65em)
 
   // Header
