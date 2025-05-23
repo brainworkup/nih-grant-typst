@@ -1,0 +1,137 @@
+NIH Grant Workflow: Template to Submission-Ready Document
+=========================================================
+
+                    ┌─────────────────────┐
+                    │  Start: Need Grant  │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │ Run quick_start.py  │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │  Select Grant Type  │
+                    └─┬─────────┬─────────┬┘
+                      │         │         │
+            ┌─────────▼┐    ┌───▼───┐   ┌─▼─────────┐
+            │R01: 12pg │    │R03:6pg│   │R21: 6pg   │
+            │Research  │    │Small  │   │Exploratory│
+            └─────────┬┘    └───┬───┘   └─┬─────────┘
+                      │         │         │
+                      └─────────┼─────────┘
+                                │
+                    ┌───────────▼───────────┐
+                    │ Enter Project Details │
+                    └───────────┬───────────┘
+                                │
+                    ┌───────────▼────────────┐
+                    │ Template Copied to     │
+                    │ my_grants/project_name │
+                    └───────────┬────────────┘
+                                │
+                    ┌───────────▼───────────┐
+                    │ Edit Core Documents   │
+                    └─┬─────┬─────┬─────────┘
+                      │     │     │
+            ┌─────────▼┐ ┌──▼──┐ ┌▼─────────┐ ┌─────────┐
+            │Specific  │ │Res. │ │Biosketch │ │Budget & │
+            │Aims 1pg  │ │Strat│ │5pg/pers  │ │Justify  │
+            └─────────┬┘ └──┬──┘ └┬─────────┘ └─────────┘
+                      │     │     │              │
+                      └─────┼─────┼──────────────┘
+                            │     │
+                    ┌───────▼─────▼───────┐
+                    │   Content Review    │ ◄─┐
+                    └─┬─────────────────┬─┘   │
+                      │                 │     │
+                 ┌────▼────┐      ┌─────▼─────┴┐
+                 │  Ready  │      │ Needs Work │
+                 └────┬────┘      └─────┬─────┬┘
+                      │                 │     │
+                ┌─────▼─────┐           │  ┌──▼──────┐
+                │ Compile   │           │  │ Revise  │
+                │with Typst │           │  │Content  │
+                └─────┬─────┘           │  └──┬──────┘
+                      │                 │     │
+                ┌─────▼─────┐           │     │
+                │Generate   │           │     │
+                │  PDF      │           │     │
+                └─────┬─────┘           │     │
+                      │                 │     │
+                ┌─────▼─────┐           │     │
+                │ Quality   │           │     │
+                │  Check    │           │     │
+                └─┬─────┬─┬─┘           │     │
+                  │     │ │             │     │
+         ┌────────▼┐  ┌─▼─▼─────────────┼─────┘
+         │Format   │  │Content Issues   │
+         │Issues   │  └─────────────────┘
+         └────┬────┘
+              │
+         ┌────▼────┐
+         │Fix      │
+         │Format   │
+         └────┬────┘
+              │
+         ┌────▼────┐
+         │ Ready   │
+         └────┬────┘
+              │
+         ┌────▼────┐
+         │Internal │
+         │Review   │
+         └────┬────┘
+              │
+         ┌────▼────┐
+         │Feedback │
+         └─┬─────┬─┘
+           │     │
+    ┌──────▼┐   ┌▼──────────┐
+    │Major  │   │Minor      │
+    │Changes│   │Changes    │
+    └──┬────┘   └┬──────────┘
+       │         │
+       │    ┌────▼─────┐
+       │    │Polish &  │
+       │    │Final Edit│
+       │    └────┬─────┘
+       │         │
+       └─────────┼─────────┐
+                 │         │
+            ┌────▼─────────▼──┐
+            │Final Compilation│
+            └────┬────────────┘
+                 │
+            ┌────▼─────────────┐
+            │Submission-Ready  │
+            │      PDF         │
+            └────┬─────────────┘
+                 │
+            ┌────▼─────────────┐
+            │  Submit to NIH   │
+            └──────────────────┘
+
+
+Key Phases:
+-----------
+1. SETUP: Template selection and configuration
+2. DEVELOP: Core document creation and editing
+3. REVIEW: Content validation and quality checks
+4. REVISE: Iterative improvements
+5. SUBMIT: Final preparation and delivery
+
+Quality Gates:
+--------------
+✓ Page limits (R01: 12pg, R03/R21: 6pg)
+✓ Required sections complete
+✓ References formatted
+✓ Figures/tables labeled
+✓ Budget justified
+✓ Biosketches current
+
+Critical Decision Points:
+------------------------
+• Grant Type: Determines page limits and scope
+• Content Review: Scientific merit assessment
+• Quality Check: Format and completeness
+• Feedback: Major vs minor revision path
