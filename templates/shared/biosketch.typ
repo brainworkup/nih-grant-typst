@@ -17,7 +17,7 @@
     margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
   )
 
-  set text(font: "Helvetica", size: 11pt)
+  set text(font: "IBM Plex Sans", size: 11pt)
   set par(justify: false, leading: 0.65em)
 
   // Header
@@ -113,8 +113,8 @@
   }
 }
 
-// Actually render the biosketch example
-#biosketch(
+// Define the biosketch example as a variable for importing
+#let biosketch_example = biosketch(
   name: "Jane Smith, Ph.D.",
   eRA_commons: "JSMITH",
   position: "Professor of Neuroscience",
@@ -168,3 +168,6 @@
     completed: none
   )
 )
+
+// Actually render the biosketch example
+#biosketch_example

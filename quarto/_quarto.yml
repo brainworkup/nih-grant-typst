@@ -37,7 +37,7 @@ format:
     linestretch: 1.5
     mainfont: IBM Plex Sans
     mathfont: STIX Two Math
-    sansfont: Helvetica
+    sansfont: IBM Plex Sans
     colorlinks: true
     linkcolor: blue
     urlcolor: blue

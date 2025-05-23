@@ -5,7 +5,7 @@
   number-align: center,
 )
 
-#set text(font: "Helvetica", size: 11pt)
+#set text(font: "IBM Plex Sans", size: 11pt)
 #set par(justify: true, leading: 0.8em)
 
 // Configure heading styles
