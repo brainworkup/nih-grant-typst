@@ -38,7 +38,7 @@ Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'patchwork', 'viridis'))"
 
 ```
 nih-grant-typst/
-├── templates/              # Typst templates for grant applications
+├── templates/             # Typst templates for grant applications
 │   ├── R01/               # R01 grant template
 │   ├── R03/               # R03 grant template
 │   └── shared/            # Shared components (aims, budget)
