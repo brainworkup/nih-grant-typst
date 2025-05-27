@@ -77,19 +77,21 @@ create_gaussian_plot <- function(save_path = NULL, width = 10, height = 7) {
 
   # Generate the main distribution plot
   p1 <- ggplot(gaussian_df, aes(x = z, y = density)) +
-    # Fill the curve with gradient
-    geom_area(aes(fill = ..x..), alpha = 0.7) +
-    scale_fill_viridis_c(option = "plasma") +
+    # Fill the curve with a solid color
+    geom_area(
+      fill = "#E3F2FD",
+      alpha = 0.7
+    ) +
 
     # Add the distribution curve
-    geom_line(color = "black", size = 1) +
+    geom_line(color = "black", linewidth = 1) +
 
     # Add vertical lines for critical z-values
     geom_vline(
       data = cutoffs,
       aes(xintercept = z, color = color),
       linetype = "dashed",
-      size = 0.8
+      linewidth = 0.8
     ) +
     scale_color_identity() +
 
@@ -118,14 +120,14 @@ create_gaussian_plot <- function(save_path = NULL, width = 10, height = 7) {
 
   # Create a cumulative distribution function plot
   p2 <- ggplot(gaussian_df, aes(x = z, y = cumulative_prob)) +
-    geom_line(size = 1, color = "#673AB7") +
+    geom_line(linewidth = 1, color = "#673AB7") +
 
     # Add horizontal lines for percentiles
     geom_hline(
       data = cutoffs,
       aes(yintercept = percentile, color = color),
       linetype = "dashed",
-      size = 0.6
+      linewidth = 0.6
     ) +
     scale_color_identity() +
 
@@ -199,14 +201,14 @@ create_shaded_regions_plot <- function(
     density = dnorm(z_scores)
   )
 
-  # Define regions to shade
+  # Define regions to shade with finite bounds
   regions <- tribble(
     ~start,
     ~end,
     ~region_name,
     ~fill_color,
     ~alpha,
-    -Inf,
+    -4,
     -1.96,
     "p < 0.025",
     "#E57373",
@@ -227,7 +229,7 @@ create_shaded_regions_plot <- function(
     "#FFB74D",
     0.6,
     1.96,
-    Inf,
+    4,
     "p > 0.975",
     "#E57373",
     0.7
@@ -235,10 +237,6 @@ create_shaded_regions_plot <- function(
 
   # Function to calculate area under the curve for each region
   calculate_area <- function(start_z, end_z) {
-    # Handle infinite bounds
-    if (is.infinite(start_z)) start_z <- -10
-    if (is.infinite(end_z)) end_z <- 10
-
     # Calculate the probability (area)
     prob <- pnorm(end_z) - pnorm(start_z)
     return(prob)
@@ -249,64 +247,70 @@ create_shaded_regions_plot <- function(
     rowwise() %>%
     mutate(
       probability = calculate_area(start, end),
-      label_z = ifelse(
-        is.infinite(start),
-        start + 2,
-        ifelse(is.infinite(end), end - 2, (start + end) / 2)
-      ),
+      label_z = (start + end) / 2,
       label_y = dnorm(label_z) / 2
-    )
+    ) %>%
+    ungroup()
 
-  # Create shaded plot
+  # Create base plot
   p <- ggplot(gaussian_df, aes(x = z, y = density)) +
-    # Add shaded regions
+    # Add base ribbon for entire distribution
     geom_ribbon(
-      data = gaussian_df %>%
-        filter(z >= -10, z <= 10),
       aes(x = z, ymin = 0, ymax = density),
       fill = "#BBDEFB",
       alpha = 0.3
-    ) +
+    )
 
-    # Add specific shaded regions
-    geom_ribbon(
-      data = map_df(1:nrow(regions), function(i) {
-        region <- regions[i, ]
-        gaussian_df %>%
-          filter(z >= region$start, z <= region$end)
-      }),
-      aes(
-        x = z,
-        ymin = 0,
-        ymax = density,
-        fill = map_chr(1:nrow(regions), ~ regions$region_name[.]),
-        alpha = map_dbl(1:nrow(regions), ~ regions$alpha[.])
+  # Add shaded regions one by one
+  for (i in 1:nrow(regions)) {
+    region <- regions[i, ]
+
+    # Filter data for this region
+    region_data <- gaussian_df %>%
+      filter(z >= region$start, z <= region$end)
+
+    # Add shaded region
+    p <- p +
+      geom_ribbon(
+        data = region_data,
+        aes(x = z, ymin = 0, ymax = density),
+        fill = region$fill_color,
+        alpha = region$alpha,
+        inherit.aes = FALSE
       )
-    ) +
-    scale_fill_manual(values = regions$fill_color, name = "Region") +
+  }
 
-    # Add the distribution curve
-    geom_line(color = "black", size = 1) +
+  # Add the distribution curve
+  p <- p + geom_line(color = "black", linewidth = 1)
 
-    # Add region labels
-    geom_label(
-      data = regions,
-      aes(
-        x = label_z,
-        y = label_y,
-        label = paste0(
-          region_name,
-          "\n",
-          scales::percent(probability, accuracy = 0.1)
-        ),
-        fill = region_name
-      ),
-      color = "white",
-      fontface = "bold",
-      size = 3.5
-    ) +
+  # Add region labels
+  for (i in 1:nrow(regions)) {
+    region <- regions[i, ]
 
-    # Add title and labels
+    label_data <- data.frame(
+      x = region$label_z,
+      y = region$label_y,
+      label = paste0(
+        region$region_name,
+        "\n",
+        scales::percent(region$probability, accuracy = 0.1)
+      )
+    )
+
+    p <- p +
+      geom_label(
+        data = label_data,
+        aes(x = x, y = y, label = label),
+        fill = region$fill_color,
+        color = "white",
+        fontface = "bold",
+        size = 3.5,
+        inherit.aes = FALSE
+      )
+  }
+
+  # Add title and labels
+  p <- p +
     labs(
       title = "Critical Regions in the Normal Distribution",
       subtitle = "Highlighting common statistical thresholds and their probabilities",
@@ -314,7 +318,6 @@ create_shaded_regions_plot <- function(
       y = "Density",
       caption = "Created with R and ggplot2 for NIH grant applications"
     ) +
-
     # Set axis limits and theme adjustments
     coord_cartesian(ylim = c(0, 0.45)) +
     guides(alpha = "none") +

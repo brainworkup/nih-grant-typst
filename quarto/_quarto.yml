@@ -35,9 +35,9 @@ format:
       - margin=1in
     fontsize: 11pt
     linestretch: 1.5
-    mainfont: Arial
+    mainfont: IBM Plex Sans
     mathfont: STIX Two Math
-    sansfont: Arial
+    sansfont: IBM Plex Sans
     colorlinks: true
     linkcolor: blue
     urlcolor: blue
@@ -70,7 +70,6 @@ bibliography: references/progress-report-refs.bib
 csl: references/american-medical-association.csl
 
 filters:
-  - include-code-files
   - quarto-crossref
 
 crossref:

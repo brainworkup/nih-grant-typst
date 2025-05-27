@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile Current Typst",
+      "type": "shell",
+      "command": "typst compile --root ${workspaceFolder} ${file} ${fileDirname}/${fileBasenameNoExtension}.pdf",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Compile All Templates",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/compile_templates.sh",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Watch Current Typst",
+      "type": "shell",
+      "command": "typst watch --root ${workspaceFolder} ${file} ${fileDirname}/${fileBasenameNoExtension}.pdf",
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "Format References",
+      "type": "shell",
+      "command": "python ${workspaceFolder}/scripts/helpers/reference_formatter.py ${file} --format nih",
+      "problemMatcher": []
+    },
+    {
+      "label": "Validate Current PDF",
+      "type": "shell",
+      "command": "python ${workspaceFolder}/tools/validate.py ${file}",
+      "problemMatcher": []
+    }
+  ]
+}

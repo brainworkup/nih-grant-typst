@@ -71,7 +71,7 @@
 )
 
 // Bibliography
-#bibliography("references.bib")
+#references("references.bib")
 
 // Budget Section
 #heading(level: 1, [BUDGET & JUSTIFICATION])

@@ -1,35 +1,185 @@
-name: Compile Typst Documents
+name: Build and Validate Templates
+
+permissions:
+  contents: write
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'templates/**/*.typ'
+      - 'templates/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
   pull_request:
-    branches: [ main ]
-    paths:
-      - 'templates/**/*.typ'
+    branches: [main]
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Enable debug mode'
+        required: false
+        default: false
 
 jobs:
-  compile:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Install Typst
-        uses: yusancky/setup-typst@v2
+        uses: typst-community/setup-typst@v4
         with:
-          version: 'latest'
+          typst-version: 'latest'
+          allow-prereleases: true
+
+      - name: Install fonts
+        uses: fontist/setup-fontist@v2
+
+      - name: Install Fira Code font
+        run: fontist install "Fira Code"
+
+      - name: Install Arial font
+        run: fontist install "Arial"
+
+      - name: Install common fonts
+        run: |
+          fontist install "Times New Roman"
+          fontist install "Helvetica"
+          fontist install "Open Sans"
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyPDF2 click
+
+      - name: Create output directory
+        run: mkdir -p outputs
 
       - name: Compile R01 template
-        run: typst compile templates/R01/R01.typ outputs/R01_template.pdf
+        run: |
+          echo "Compiling R01 template..."
+          typst compile --root . templates/R01/R01.typ outputs/R01_template.pdf
 
       - name: Compile R03 template
-        run: typst compile templates/R03/R03.typ outputs/R03_template.pdf
+        run: |
+          echo "Compiling R03 template..."
+          typst compile --root . templates/R03/R03.typ outputs/R03_template.pdf
+
+      - name: Compile shared components
+        run: |
+          echo "Testing shared components compilation..."
+          # Create a test file that imports shared components
+          cat > test_shared.typ << EOF
+          // Set page to US Letter
+          #set page(
+            paper: "us-letter",
+            margin: (left: 0.5in, right: 0.5in, top: 0.5in, bottom: 0.5in),
+            numbering: "1",
+            number-align: center,
+          )
+
+          #import "templates/shared/specific_aims.typ": specific_aims_example
+          #import "templates/shared/budget.typ": budget_example
+          #import "templates/shared/biosketch.typ": biosketch_example
+
+          = Test Document
+          This document tests that all shared components compile correctly.
+
+          #specific_aims_example
+          #pagebreak()
+          #budget_example
+          #pagebreak()
+          #biosketch_example
+          EOF
+
+          typst compile --root . test_shared.typ outputs/test_shared.pdf
+
+      - name: List compiled files
+        run: |
+          echo "Successfully compiled:"
+          ls -la outputs/
+
+      - name: Validate PDFs
+        run: |
+          echo "Validating PDF compliance..."
+          python tools/validate.py outputs/*.pdf
+
+      - name: Log page dimensions
+        run: |
+          for pdf in outputs/*.pdf; do
+            echo "Checking dimensions for $pdf..."
+            python tools/validate.py "$pdf"
+          done
+
+      - name: Check file sizes
+        run: |
+          echo "Checking PDF file sizes..."
+          for pdf in outputs/*.pdf; do
+            size=$(stat -c%s "$pdf")
+            echo "$pdf: $(numfmt --to=iec-i --suffix=B $size)"
+          done
+
 
       - name: Upload compiled PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-pdfs
+          name: compiled-templates-${{ github.sha }}
           path: outputs/*.pdf
+          retention-days: 30
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.sha }}
+          path: |
+            outputs/
+            test_*.typ
+          retention-days: 7
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-templates-${{ github.sha }}
+          path: outputs/
+
+      - name: Create release info
+        run: |
+          echo "# Template Compilation Results" > release_notes.md
+          echo "" >> release_notes.md
+          echo "Compiled on: $(date)" >> release_notes.md
+          echo "Commit: ${{ github.sha }}" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Compiled Templates" >> release_notes.md
+          for pdf in outputs/*.pdf; do
+            echo "- $(basename $pdf)" >> release_notes.md
+          done
+
+      - name: Update latest release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest Compiled Templates
+          body_path: release_notes.md
+          files: outputs/*.pdf
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

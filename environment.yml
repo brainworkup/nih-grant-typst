@@ -53,12 +53,13 @@ dependencies:
   - jupyter>=1.0.0
   - pip:
       # Additional Python packages from PyPI
-      - typst-cli>=0.9.0  # Typst compiler
+      - typst>=0.9.0  # Typst compiler
       - bibtexparser>=1.4.0
-      - pylatexenc>=3.0.0
+      - pylatexenc
       - scholarly>=1.7.0  # For fetching citation data
       - pyparsing>=3.0.0
       - pygments>=2.15.0  # Syntax highlighting
+      - pypst # Classes for typst
 
       # Development tools
       - black>=23.0.0     # Code formatting

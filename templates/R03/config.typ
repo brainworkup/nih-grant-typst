@@ -13,7 +13,7 @@
   )
 
   // Font settings
-  set text(font: "Arial", size: 11pt)
+  set text(font: "IBM Plex Sans", size: 11pt)
   set par(justify: true, leading: 0.8em)
 
   // Headings configuration
@@ -62,8 +62,8 @@
   approach
 }
 
-// Function for bibliography
-#let bibliography(bibfile) = {
+// Function for bibliography section
+#let references(bibfile) = {
   heading(level: 1, [BIBLIOGRAPHY & REFERENCES CITED])
-  bibliography(bibfile, style: "vancouver")
+  bibliography(bibfile)
 }

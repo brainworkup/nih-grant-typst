@@ -38,7 +38,7 @@ Rscript -e "install.packages(c('tidyverse', 'ggplot2', 'patchwork', 'viridis'))"
 
 ```
 nih-grant-typst/
-├── templates/             # Typst templates for grant applications
+├── templates/              # Typst templates for grant applications
 │   ├── R01/               # R01 grant template
 │   ├── R03/               # R03 grant template
 │   └── shared/            # Shared components (aims, budget)
@@ -111,7 +111,7 @@ Create a Quarto document for your analysis:
 ```r
 ---
 title: "Data Analysis for NIH Grant"
-format: 
+format:
   html: default
   typst: default
 ---
@@ -232,14 +232,14 @@ quarto render progress-report.qmd --to html
 
 ### R03 - Small Grant Program
 - **Purpose**: Limited research projects
-- **Research Strategy**: 6 pages  
+- **Research Strategy**: 6 pages
 - **Budget**: $50,000/year maximum
 - **Duration**: Up to 2 years
 - [View template](templates/R03/)
 
 ### Coming Soon
 - R21 - Exploratory/Developmental Research
-- K99/R00 - Pathway to Independence  
+- K99/R00 - Pathway to Independence
 - F31 - Predoctoral Fellowship
 
 ## 🛠️ Advanced Features

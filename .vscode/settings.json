@@ -12,5 +12,26 @@
     "*.typ": "typst"
   },
   "typst-preview.preview.updateDebounceWait": 200,
-  "typst-preview.compiler.includeEnvironmentVariables": true
+  "typst-preview.compiler.includeEnvironmentVariables": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#b5e7f8",
+    "activityBar.background": "#b5e7f8",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#f16dd0",
+    "activityBarBadge.foreground": "#15202b",
+    "panel.border": "#b5e7f8",
+    "sash.hoverBorder": "#b5e7f8",
+    "statusBar.background": "#86d8f4",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#57c9f0",
+    "statusBarItem.remoteBackground": "#86d8f4",
+    "statusBarItem.remoteForeground": "#15202b",
+    "tab.activeBorder": "#b5e7f8"
+  },
+  "peacock.color": "#86d8f4",
+  "files.exclude": {
+    ".history": true,
+    "my_grants/neural_basis_of_uncertainty/.history": true
+  }
 }
