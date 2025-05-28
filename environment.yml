@@ -60,6 +60,7 @@ dependencies:
       - pyparsing>=3.0.0
       - pygments>=2.15.0  # Syntax highlighting
       - pypst # Classes for typst
+      - questionary
 
       # Development tools
       - black>=23.0.0     # Code formatting

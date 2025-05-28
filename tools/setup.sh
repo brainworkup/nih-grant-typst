@@ -182,10 +182,9 @@ if command_exists code; then
     echo "Would you like to install recommended VSCode extensions? (y/n)"
     read -r response
     if [[ "$response" =~ ^[Yy]$ ]]; then
-        code --install-extension nvarner.typst-lsp
-        code --install-extension mgt19937.typst-preview
+        code --install-extension myriad-dreamin.tinymist
+        code --install-extension posit.air-vscode
         code --install-extension quarto.quarto
-        code --install-extension REditorSupport.r
         code --install-extension ms-python.python
         print_status 0 "VSCode extensions installed"
     fi
