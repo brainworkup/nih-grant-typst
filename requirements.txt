@@ -2,11 +2,7 @@
 # Use with: pip install -r requirements.txt
 
 # Core dependencies
-<<<<<<< HEAD
-typst>=0.1.0
-=======
 typst
->>>>>>> 3524057333784ec8f8a185b147983054ffc299c4
 bibtexparser>=1.4.0
 pylatexenc
 scholarly>=1.7.0

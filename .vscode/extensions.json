@@ -1,10 +1,10 @@
 {
   "recommendations": [
     "nvarner.typst-lsp",
-    "mgt19937.typst-preview",
     "mathematic.vscode-pdf",
     "quarto.quarto",
     "REditorSupport.r",
-    "ms-python.python"
+    "ms-python.python",
+    "myriad-dreamin.tinymist"
   ]
 }
