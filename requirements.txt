@@ -19,6 +19,8 @@ requests>=2.28.0
 pathlib>=1.0.1
 pyparsing>=3.0.0
 pygments>=2.15.0
+questionary
+rich
 
 # Development tools
 black>=23.0.0
