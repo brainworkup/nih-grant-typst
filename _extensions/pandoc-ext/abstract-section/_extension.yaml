@@ -1,0 +1,7 @@
+name: abstract-section
+author: Albert Krewinkel
+version: 1.2.0
+contributes:
+  filters:
+    - abstract-section.lua
+source: pandoc-ext/abstract-section@v1.2.0

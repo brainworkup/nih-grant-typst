@@ -1,0 +1,12 @@
+name: Exa MCP
+version: 0.0.2
+schema: v1
+
+mcpServers:
+  - name: Exa
+    command: npx
+    args:
+      - "-y"
+      - "exa-mcp-server"
+    env:
+      EXA_API_KEY: ${{ inputs.EXA_API_KEY }}
